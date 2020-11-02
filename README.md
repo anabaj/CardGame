@@ -1,6 +1,8 @@
 # CardGame
 
-## Run CardGame from command line
+### CardGame is .NET Core console application written in C# using Visual Studio 2019
+
+### Run CardGame from command line
 
 Navigate to root folder:
 
@@ -16,7 +18,7 @@ Navigate to root folder:
  
 	  dotnet run --project CardGame --size 80 --players 4
 
-## Run Unit Tests from command line
+### Run Unit Tests from command line
 
 Navigate to root folder:
 
