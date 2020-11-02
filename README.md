@@ -8,11 +8,11 @@ Navigate to root folder:
 
 	  dotnet run --project CardGame
 
-- Start game with one or more specific game rules: 
+- Start game with one or more specific game rules. If suits are not enabled, omit --suit argument. If enabled suits are added in order from weakest to strongest. 
 	
-	  dotnet run --project CardGame --size 80 --players 4 --suits true
+	  dotnet run --project CardGame --size 52 --players 4 --suits spade diamond heart club
 	
-	  dotnet run --project CardGame --suits true
+	  dotnet run --project CardGame --suits spade diamond heart club
  
 	  dotnet run --project CardGame --size 80 --players 4
 
