@@ -10,13 +10,17 @@ Navigate to root folder:
 
 	  dotnet run --project CardGame
 
-- Start game with one or more specific game rules. If suits are not enabled, omit --suit argument. If enabled suits are added in order from weakest to strongest. 
+- Start game with one or more specific game rules. 
+- If suits are not enabled, omit --suit argument. If enabled suits are added in order from weakest to strongest. 
+- Default rules: 40 cards, 2 players and no suits.
 	
 	  dotnet run --project CardGame --size 52 --players 4 --suits spade diamond heart club
 	
 	  dotnet run --project CardGame --suits spade diamond heart club
  
 	  dotnet run --project CardGame --size 80 --players 4
+
+	  dotnet run --project CardGame
 
 ### Compile and run Unit Tests from command line
 
