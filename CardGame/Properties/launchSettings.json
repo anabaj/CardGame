@@ -1,7 +1,8 @@
 {
   "profiles": {
     "CardGame": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "--size 40 --players 2"
     }
   }
 }

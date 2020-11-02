@@ -14,7 +14,7 @@ namespace CardGameTest.Tests
         readonly GameRules _gameRules = new GameRules
         {
             DeckSize = 40,
-            EnableSuits = true,
+            Suits = new List<string> { "spade", "diamond", "heart", "club" },
             NumberOfPlayers = 2
         };
 
@@ -22,7 +22,7 @@ namespace CardGameTest.Tests
         public void ValidateNewDeck()
         {
             var cardGameService = new CardGameService(_gameRules);
-            var allCards = cardGameService.InitializeDeck(_gameRules.DeckSize, _gameRules.EnableSuits);
+            var allCards = cardGameService.InitializeDeck();
 
             Assert.Contains(allCards, item => item >= 1 && item <= _gameRules.DeckSize / 4);
             Assert.Equal(_gameRules.DeckSize, allCards.Count());
@@ -32,8 +32,8 @@ namespace CardGameTest.Tests
         public void NewDeckIsShuffled()
         {
             var dackManager = new CardGameService(_gameRules);
-            var ordered = new Stack<int>(dackManager.InitializeDeck(_gameRules.DeckSize, _gameRules.EnableSuits));
-            var shuffled = dackManager.InitializeDeck(_gameRules.DeckSize, _gameRules.EnableSuits).GetShuffledStack();
+            var ordered = new Stack<int>(dackManager.InitializeDeck());
+            var shuffled = dackManager.InitializeDeck().GetShuffledStack();
 
             Assert.Contains(shuffled, item => item >= 1 && item <= _gameRules.DeckSize / 4);
             Assert.Equal(_gameRules.DeckSize, shuffled.Count());
@@ -44,7 +44,7 @@ namespace CardGameTest.Tests
         public void CheckNewPlayersDeckSizes()
         {
             var cardGameService = new CardGameService(_gameRules);
-            var deck = cardGameService.InitializeDeck(_gameRules.DeckSize, _gameRules.EnableSuits).GetShuffledStack();
+            var deck = cardGameService.InitializeDeck().GetShuffledStack();
             cardGameService.InitializePlayerDecks(deck);
             var expected = _gameRules.DeckSize / _gameRules.NumberOfPlayers;
 
@@ -184,5 +184,17 @@ namespace CardGameTest.Tests
             Assert.Equal(cardGameService.Players[1], cardGameService.Winner);
         }
 
+        [Fact]
+        public void DeckSizePersistedThroughTheGame()
+        {
+            var cardGameService = new CardGameService(_gameRules);
+
+            while (!cardGameService.GameEnded)
+            {
+                cardGameService.DrawCard();
+                cardGameService.CalculateDrawOutcome();
+                Assert.Equal(_gameRules.DeckSize, cardGameService.Players.Sum(p => p.Total));
+            }
+        }
     }
 }

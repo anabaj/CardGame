@@ -21,13 +21,22 @@ namespace CardGame.Services
             {
                 throw new Exception("Number of players must be a number. Game will not start.");
             }
-            if (!bool.TryParse(GetArgument(args, "--suits", "false"), out var enableSuits))
+            var suits = GetArgument(args, "--suits", "");
+            if (suits == "")
             {
-                throw new Exception("Enable suits must be boolean. Game will not start.");
+                gameRules.Suits = new List<string>();
+
+            }
+            else if (suits.Split(" ").Length == 4)
+            {
+                gameRules.Suits = suits.Split(" ").ToList();
+            }
+            else
+            {
+                throw new Exception("Suits must be emtpy or list of 4 strings. Game will not start.");
             }
             gameRules.DeckSize = deckSize;
             gameRules.NumberOfPlayers = numberOfPlayers;
-            gameRules.EnableSuits = enableSuits;
 
             return gameRules;
         }
@@ -40,7 +49,14 @@ namespace CardGame.Services
                 var index = args.ToList().IndexOf(argumentName);
                 if (index != -1)
                 {
-                    result = args[index + 1];
+                    if (argumentName == "--suits")
+                    {
+                        result = $"{args[index + 1]} {args[index + 2]} {args[index + 3]} {args[index + 4]}";  
+                    }
+                    else
+                    {
+                        result = args[index + 1];
+                    }
                 }
             }
             return result;

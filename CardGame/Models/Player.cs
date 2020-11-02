@@ -27,19 +27,14 @@ namespace CardGame.Models
             }
         }
 
-        /// <summary>
-        /// Spades - 0, Diamonds - 1, Hearts - 2, Clubs - 3
-        /// </summary>
-        /// <param name="deckSize"></param>
-        /// <returns></returns>
-        public string GetCardLabel(bool enableSuits, int deckSize)
+        public string GetCardLabel(GameRules gameRules)
         {
             var result = CurrentCard.ToString();
 
-            if (enableSuits)
+            if (gameRules.EnableSuits)
             {
-                var limiter = deckSize / 4;
-                var suits = new List<string> { "Spade", "Diamond", "Heart", "Club" };
+                var limiter = gameRules.DeckSize / 4;
+                //var suits = new List<string> { "Spade", "Diamond", "Heart", "Club" };
                 for (int i = 0; i < limiter; i++)
                 {
                     for (int j = 0; j < 4; j++)
@@ -47,29 +42,11 @@ namespace CardGame.Models
                         var num = 1 + 4 * i + j;
                         if (CurrentCard == num)
                         {
-                            result = $"{i + 1} {suits[j]}";
+                            result = $"{i + 1} {gameRules.Suits[j]}";
                             break;
                         }
                     }
                 }
-
-
-                //if (this.CurrentCard <= limiter)
-                //{
-                //    result = $"{this.CurrentCard} Spade";
-                //}
-                //else if (this.CurrentCard <= limiter * 2)
-                //{
-                //    result = $"{this.CurrentCard - limiter} Diamond";
-                //}
-                //else if (this.CurrentCard <= limiter * 3)
-                //{
-                //    result = $"{this.CurrentCard - limiter * 2} Heart";
-                //}
-                //else if (this.CurrentCard <= limiter * 4)
-                //{
-                //    result = $"{this.CurrentCard - limiter * 3} Club";
-                //}
             }
 
 

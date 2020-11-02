@@ -13,10 +13,15 @@ namespace CardGameTest.Tests
         public void AllArgumentsSpecified()
         {
             var gameRuleService = new GameRuleService();
-            var args = new string[] { "--suits", "true", "--size", "80", "--players", "4" };
+            var args = new string[] { "--suits", "spade", "diamond", "heart", "club", "--size", "80", "--players", "4" };
 
             var actual = gameRuleService.InitializeRules(args);
-            var expected = new GameRules { EnableSuits = true, NumberOfPlayers = 4, DeckSize = 80 };
+            var expected = new GameRules
+            {
+                NumberOfPlayers = 4,
+                DeckSize = 80,
+                Suits = new List<string> { "spade", "diamond", "heart", "club" }
+            };
 
             Assert.Equal(expected.DeckSize, actual.DeckSize);
             Assert.Equal(expected.NumberOfPlayers, actual.NumberOfPlayers);
@@ -27,10 +32,15 @@ namespace CardGameTest.Tests
         public void OneArgumentSpecified()
         {
             var gameRuleService = new GameRuleService();
-            var args = new string[] { "--suits", "true" };
+            var args = new string[] { "--suits", "spade", "diamond", "heart", "club" };
 
             var actual = gameRuleService.InitializeRules(args);
-            var expected = new GameRules { EnableSuits = true, NumberOfPlayers = 2, DeckSize = 40 };
+            var expected = new GameRules
+            {
+                NumberOfPlayers = 2,
+                DeckSize = 40,
+                Suits = new List<string> { "spade", "diamond", "heart", "club" }
+            };
 
             Assert.Equal(expected.DeckSize, actual.DeckSize);
             Assert.Equal(expected.NumberOfPlayers, actual.NumberOfPlayers);
@@ -44,7 +54,7 @@ namespace CardGameTest.Tests
             var args = new string[] { };
 
             var actual = gameRuleService.InitializeRules(args);
-            var expected = new GameRules { EnableSuits = false, NumberOfPlayers = 2, DeckSize = 40 };
+            var expected = new GameRules { NumberOfPlayers = 2, DeckSize = 40 };
 
             Assert.Equal(expected.DeckSize, actual.DeckSize);
             Assert.Equal(expected.NumberOfPlayers, actual.NumberOfPlayers);

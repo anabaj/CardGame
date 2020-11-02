@@ -44,7 +44,7 @@ namespace CardGame.Services
             _gameRules = gameRules;
             _tempDeck = new List<int>();
             Players = InitializePlayers();
-            _initialDeck = InitializeDeck(_gameRules.DeckSize, _gameRules.EnableSuits);
+            _initialDeck = InitializeDeck();
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace CardGame.Services
 
         public void StartGame()
         {
-            Console.WriteLine($"Deck size: {_gameRules.DeckSize}, number of players: {_gameRules.NumberOfPlayers}, suits: {_gameRules.EnableSuits} \r\n");
+            Console.WriteLine(_gameRules.Description);
 
             var deck = _initialDeck.GetShuffledStack();
             InitializePlayerDecks(deck);
@@ -78,13 +78,13 @@ namespace CardGame.Services
             return players;
         }
 
-        public IEnumerable<int> InitializeDeck(int deckSize, bool enableSuits)
+        public IEnumerable<int> InitializeDeck()
         {
-            var max = deckSize / 4;
+            var max = _gameRules.DeckSize / 4; 
             var result = new List<int>();
-            if (enableSuits)
+            if (_gameRules.EnableSuits)
             {
-                for (int i = 1; i <= deckSize; i++)
+                for (int i = 1; i <= _gameRules.DeckSize; i++)
                 {
                     result.Add(i);
                 }
@@ -139,7 +139,7 @@ namespace CardGame.Services
                 player.CurrentCard = player.Deck.Pop();
                 _tempDeck.Add(player.CurrentCard);
 
-                Console.WriteLine($"{player.Name} ({player.Deck.Count() + 1} cards): {player.GetCardLabel(_gameRules.EnableSuits, _gameRules.DeckSize)}");
+                Console.WriteLine($"{player.Name} ({player.Deck.Count() + 1} cards): {player.GetCardLabel(_gameRules)}");
                 //Console.WriteLine($"{player.Name} ({player.Total + 1} cards): {player.CurrentCard}");
             });
         }
